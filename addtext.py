@@ -3,6 +3,8 @@
 import pandas as pd  # Import the pandas library for reading Excel files
 from PyPDF2 import PdfWriter, PdfReader  # Import PdfWriter and PdfReader from PyPDF2 for handling PDF files
 from reportlab.pdfgen import canvas  # Import the canvas module from reportlab for creating PDF overlays
+import tkinter as tk
+from tkinter import ttk
 import io  # Import the io module for handling in-memory byte streams
 import sys  # Import the sys module for system-specific parameters and functions
 
@@ -18,6 +20,8 @@ def create_annotation_canvas(text, x):
     return packet  # Return the byte stream
 
 # Function to merge the annotation canvas with an existing PDF page
+# The function takes a `page` object and a `packet` object as input
+# and returns the modified `page` object
 def merge_annotation(page, packet):
     new_pdf = PdfReader(packet)  # Read the byte stream as a PDF
     overlay_page = new_pdf.pages[0]  # Get the first page of the new PDF
@@ -45,13 +49,41 @@ def add_annotation(pdf_path, text, page_number=0):
         print(f"Annotation added to {output_pdf}")  # Print a success message
 
 # Function to modify PDFs based on an Excel file
-def modify_pdfs_from_excel(excel_path):
+def modify_pdfs_from_excel(excel_path, text):
     df = pd.read_excel(excel_path, usecols=[0, 1, 2])  # Read the specified columns from the Excel file
     for index, row in df.iterrows():  # Loop through each row in the DataFrame
-        filename = '%0*d' % (6, row['No']) + '.pdf'  # Format the filename based on the 'No' column
-        text = f"{row['Count']}       {row['Module']}"  # Create the annotation text
-        add_annotation(filename, text)  # Add the annotation to the PDF file
+        filename = '%0*d' % (6, row[0]) + '.pdf'  # Format the filename based on the 'count' column
+        ann = f"{row[1]}       {text}"  # Create the annotation text 
+        print(f"Adding annotation: {ann} to {filename}")
+        add_annotation(filename, ann)  # Add the annotation to the PDF file
+
+def read_excel(excel_path):
+    df = pd.read_excel(excel_path, usecols=[0, 1, 2])
+    return df
+
+def display_table(data):
+    root = tk.Tk()
+    root.title("PDF Files list")
+
+    tree = ttk.Treeview(root)
+    tree['columns'] = list(data.columns)
+    tree['show'] = "headings"
+
+    for column in data.columns:
+        tree.heading(column, text=column)
+        tree.column(column, width=150)
+
+    
+    for index, row in data.iterrows():
+        tree.insert('','end', values=list(row))
+
+    tree.pack(expand=True, fill='both')
+    root.mainloop()
 
 if __name__ == "__main__":  # If the script is executed directly
-    excel_path = "./naming.xlsx"  # Define the path to the Excel file
-    modify_pdfs_from_excel(excel_path)  # Call the function to modify PDFs based on the Excel file
+    excel_path = "./files.xlsx"  # Define the path to the Excel file
+    text = "J.24.021-02"
+    display_table(read_excel(excel_path))
+    #modify_pdfs_from_excel(excel_path, text)  # Call the function to modify PDFs based on the Excel file
+
+
