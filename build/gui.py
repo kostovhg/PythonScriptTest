@@ -3,8 +3,8 @@
 # https://github.com/ParthJadhav/tkinter-Designer
 
 import sys
-sys.path.append(r'C:\Users\uKBo\OneDrive\Documents\PythonScriptTest')
-import addtext as at
+sys.path.append(r'..')
+# import addtext as at
 from pathlib import Path
 
 # from tkinter import *
@@ -38,7 +38,7 @@ canvas = Canvas(
 
 canvas.place(x = 0, y = 0)
 #This should be the list
-df = at.read_excel(r'C:\Users\uKBo\OneDrive\Documents\PythonScriptTest\files.xlsx')
+# df = at.read_excel(r'C:\Users\uKBo\OneDrive\Documents\PythonScriptTest\files.xlsx')
 canvas.create_rectangle(
     95.0,
     205.0,
@@ -47,18 +47,18 @@ canvas.create_rectangle(
     fill="pink",
     outline="")
 #Create a Frame within the canvas
-frame = ttk.Frame(canvas, relief="ridge", borderwidth=1)
-frame.pack(padx=10, pady=10, fill="both", expand=True)
-tree = ttk.Treeview(frame, columns=list(df.columns), show="headings")
+# frame = ttk.Frame(canvas, relief="ridge", borderwidth=1)
+# frame.pack(padx=10, pady=10, fill="both", expand=True)
+# tree = ttk.Treeview(frame, columns=list(df.columns), show="headings")
 # Create the Treeview withing the frame
-for col in df.columns:
-    tree.heading(col, text=col)
-    tree.column(col, width=100, minwidth = 100)
+# for col in df.columns:
+#     tree.heading(col, text=col)
+#     tree.column(col, width=100, minwidth = 100)
 #insert data into the treeview
-for index, row in df.iterrows():
-    tree.insert('', tk.END, values=list(row))
+# for index, row in df.iterrows():
+#     tree.insert('', tk.END, values=list(row))
 
-tree.pack(expand=True, fill='both')
+# tree.pack(expand=True, fill='both')
 
 canvas.create_text(
     111.0,

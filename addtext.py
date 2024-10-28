@@ -7,6 +7,7 @@ import tkinter as tk
 from tkinter import ttk
 import io  # Import the io module for handling in-memory byte streams
 import sys  # Import the sys module for system-specific parameters and functions
+from pandastable import Table
 
 # Function to create a PDF canvas with the specified text
 def create_annotation_canvas(text, x):
@@ -59,25 +60,32 @@ def modify_pdfs_from_excel(excel_path, text):
 
 def read_excel(excel_path):
     df = pd.read_excel(excel_path, usecols=[0, 1, 2])
+    df['Code'] = df['Code'].apply(lambda x: f"{x:06}")
     return df
 
 def display_table(data):
     root = tk.Tk()
     root.title("PDF Files list")
 
-    tree = ttk.Treeview(root)
-    tree['columns'] = list(data.columns)
-    tree['show'] = "headings"
+    f = tk.Frame(root)
+    f.pack(fill='both', expand=1)
 
-    for column in data.columns:
-        tree.heading(column, text=column)
-        tree.column(column, width=150)
+    pt = Table(f, dataframe=data)
+    pt.show()
+
+    # tree = ttk.Treeview(root)
+    # tree['columns'] = list(data.columns)
+    # tree['show'] = "headings"
+
+    # for column in data.columns:
+    #     tree.heading(column, text=column)
+    #     tree.column(column, width=150)
 
     
-    for index, row in data.iterrows():
-        tree.insert('','end', values=list(row))
+    # for index, row in data.iterrows():
+    #     tree.insert('','end', values=list(row))
 
-    tree.pack(expand=True, fill='both')
+    # tree.pack(expand=True, fill='both')
     root.mainloop()
 
 if __name__ == "__main__":  # If the script is executed directly

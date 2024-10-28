@@ -3,7 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 
 # Load data from Excel
-excel_path = "files.xlsx"  # Specify your Excel file path
+excel_path = "03_Laser_cutting_OT.xlsx"  # Specify your Excel file path
 df = pd.read_excel(excel_path)
 
 # Create the main window

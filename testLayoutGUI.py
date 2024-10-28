@@ -16,12 +16,12 @@ right_frame.grid(row=0, column=1, padx=10, pady=2)
 Label(left_frame, text="Original Image").grid(row=0, column=0, padx=5, pady=5)
 
 # Load image to be "edited"
-image = PhotoImage(file=r"C:\Users\uKBo\OneDrive\Pictures\pikachu.png")
-original_image = image.subsample(4, 4) # Resize image using subsample
-Label(left_frame, image=original_image).grid(row=1, column=0, padx=5, pady=5)
+# image = PhotoImage(file=r"C:\Users\uKBo\OneDrive\Pictures\pikachu.png")
+# original_image = image.subsample(4, 4) # Resize image using subsample
+# Label(left_frame, image=original_image).grid(row=1, column=0, padx=5, pady=5)
 
 # Display image in right_frame
-Label(right_frame, image=image).grid(row=0, column=0, padx=5, pady=5)
+# Label(right_frame, image=image).grid(row=0, column=0, padx=5, pady=5)
 
 # Create tool bar frame
 tool_bar = Frame(left_frame, width=180, height=185)
