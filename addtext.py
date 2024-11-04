@@ -51,7 +51,7 @@ def add_annotation(pdf_path, text, page_number=0):
 
 # Function to modify PDFs based on an Excel file
 def modify_pdfs_from_excel(excel_path, text):
-    df = pd.read_excel(excel_path, usecols=[0, 1, 2])  # Read the specified columns from the Excel file
+    df = pd.read_excel(excel_path)  # Read the specified columns from the Excel file
     for index, row in df.iterrows():  # Loop through each row in the DataFrame
         filename = '%0*d' % (6, row[0]) + '.pdf'  # Format the filename based on the 'count' column
         ann = f"{row[1]}       {text}"  # Create the annotation text 
@@ -60,7 +60,7 @@ def modify_pdfs_from_excel(excel_path, text):
 
 def read_excel(excel_path):
     df = pd.read_excel(excel_path, usecols=[0, 1, 2])
-    df['Code'] = df['Code'].apply(lambda x: f"{x:06}")
+    df['PART NUMBER'] = df['PART NUMBER'].apply(lambda x: f"{x:06}")
     return df
 
 def display_table(data):
@@ -70,7 +70,8 @@ def display_table(data):
     f = tk.Frame(root)
     f.pack(fill='both', expand=1)
 
-    pt = Table(f, dataframe=data)
+    pt = Table(f, dataframe=data, width=200, maxcellwidth=1500)
+    pt.adjustColumnWidths(limit=30)
     pt.show()
 
     # tree = ttk.Treeview(root)
@@ -89,7 +90,7 @@ def display_table(data):
     root.mainloop()
 
 if __name__ == "__main__":  # If the script is executed directly
-    excel_path = "./files.xlsx"  # Define the path to the Excel file
+    excel_path = "./08_Milling_OT.xlsx"  # Define the path to the Excel file
     text = "J.24.021-02"
     display_table(read_excel(excel_path))
     #modify_pdfs_from_excel(excel_path, text)  # Call the function to modify PDFs based on the Excel file
